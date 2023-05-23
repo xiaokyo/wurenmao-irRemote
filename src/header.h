@@ -2,7 +2,8 @@
 
 #define BLINKER_PRINT Serial
 #define BLINKER_WIFI
-#define BLINKER_MIOT_LIGHT
+// #define BLINKER_MIOT_LIGHT
+#define BLINKER_MIOT_FAN
 
 #include <Arduino.h>
 #include <Blinker.h>

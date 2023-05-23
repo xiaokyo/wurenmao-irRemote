@@ -121,6 +121,47 @@ void yaotou_fengshan_callback(const String &state)
   send_ir("yaotou_fengshan");
 }
 
+// 小爱风扇控制
+void miotPowerState(const String &state)
+{
+  BLINKER_LOG("need set power state: ", state);
+
+  if (state == BLINKER_CMD_ON)
+  {
+    send_ir("open_fengshan");
+
+    BlinkerMIOT.powerState("on");
+    BlinkerMIOT.print();
+  }
+  else if (state == BLINKER_CMD_OFF)
+  {
+    send_ir("close_fengshan");
+
+    BlinkerMIOT.powerState("off");
+    BlinkerMIOT.print();
+  }
+}
+void miotHSwingState(const String &state)
+{
+  BLINKER_LOG("need set HSwing state: ", state);
+  // horizontal-swing
+
+  if (state == BLINKER_CMD_ON)
+  {
+    send_ir("open_fengshan");
+
+    BlinkerMIOT.hswing("on");
+    BlinkerMIOT.print();
+  }
+  else if (state == BLINKER_CMD_OFF)
+  {
+    send_ir("close_fengshan");
+
+    BlinkerMIOT.hswing("off");
+    BlinkerMIOT.print();
+  }
+}
+
 void setup()
 {
   // 初始化串口
@@ -146,6 +187,9 @@ void setup()
   btn_openfs.attach(open_fengshan_callback);
   btn_closefs.attach(close_fengshan_callback);
   btn_fsyt.attach(yaotou_fengshan_callback);
+
+  BlinkerMIOT.attachPowerState(miotPowerState);
+  BlinkerMIOT.attachHSwing(miotHSwingState);
 }
 
 void loop()
