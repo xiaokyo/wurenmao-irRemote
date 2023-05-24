@@ -5,8 +5,6 @@ const uint16_t kRecvPin = 5;
 const uint16_t recvLedPin = 15;
 
 char auth[] = "c67043f48092";
-char ssid[] = "9-1-10";
-char pswd[] = "qw123123";
 
 const uint32_t kBaudRate = 115200;
 const uint16_t kCaptureBufferSize = 1024;
@@ -39,11 +37,22 @@ void blinblin()
   digitalWrite(LED_BUILTIN, LOW);
 }
 
+void dataRead(const String &data)
+{
+  BLINKER_LOG("Blinker readString: ", data);
+
+  Blinker.vibrate();
+
+  uint32_t BlinkerTime = millis();
+
+  Blinker.print("millis", BlinkerTime);
+}
+
 // 按下按键即会执行该函数
 void button1_callback(const String &state)
 {
   BLINKER_LOG("get button state: ", state);
-  digitalWrite(recvLedPin, !digitalRead(recvLedPin));
+  blinblin();
   mode = mode == "send" ? "recv" : "send";
 }
 
@@ -134,6 +143,8 @@ void miotPowerState(const String &state)
     BlinkerMIOT.print();
   }
 }
+
+// 水平摇头
 void miotHSwingState(const String &state)
 {
   BLINKER_LOG("need set HSwing state: ", state);
@@ -155,6 +166,26 @@ void miotHSwingState(const String &state)
   }
 }
 
+// 控制空调
+void miotVSwingState(const String &state)
+{
+  BLINKER_LOG("need set VSwing state: ", state);
+  // vertical-swing
+
+  if (state == BLINKER_CMD_ON)
+  {
+    send_ir("open_kongtiao");
+    BlinkerMIOT.vswing("on");
+    BlinkerMIOT.print();
+  }
+  else if (state == BLINKER_CMD_OFF)
+  {
+    send_ir("close_kongtiao");
+    BlinkerMIOT.vswing("off");
+    BlinkerMIOT.print();
+  }
+}
+
 void setup()
 {
   // 初始化串口
@@ -164,6 +195,7 @@ void setup()
 
 #if defined(BLINKER_PRINT)
   BLINKER_DEBUG.stream(BLINKER_PRINT);
+  BLINKER_DEBUG.debugAll();
 #endif
 
   // 初始化有LED的IO
@@ -172,7 +204,8 @@ void setup()
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(recvLedPin, LOW);
   // 初始化blinker
-  Blinker.begin(auth, ssid, pswd);
+  Blinker.begin(auth);
+  Blinker.attachData(dataRead);
   Button1.attach(button1_callback);
 
   btn_openkt.attach(open_kongtiao_callback);
@@ -183,6 +216,7 @@ void setup()
 
   BlinkerMIOT.attachPowerState(miotPowerState);
   BlinkerMIOT.attachHSwing(miotHSwingState);
+  BlinkerMIOT.attachVSwing(miotVSwingState);
 }
 
 void loop()
