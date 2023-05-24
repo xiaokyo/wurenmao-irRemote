@@ -5,20 +5,13 @@ const uint16_t kRecvPin = 5;
 const uint16_t recvLedPin = 15;
 
 char auth[] = "c67043f48092";
-char ssid[] = "CuJia";
-char pswd[] = "cckj1688";
+char ssid[] = "9-1-10";
+char pswd[] = "qw123123";
 
 const uint32_t kBaudRate = 115200;
 const uint16_t kCaptureBufferSize = 1024;
 
-#if DECODE_AC
-// Some A/C units have gaps in their protocols of ~40ms. e.g. Kelvinator
-// A value this large may swallow repeats of some protocols
 const uint8_t kTimeout = 50;
-#else  // DECODE_AC
-// Suits most messages, while not swallowing many repeats.
-const uint8_t kTimeout = 15;
-#endif // DECODE_AC
 
 const uint16_t kMinUnknownSize = 12;
 const uint8_t kTolerancePercentage = kTolerance; //
