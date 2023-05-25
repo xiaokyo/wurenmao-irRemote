@@ -35,6 +35,8 @@ void blinblin()
   digitalWrite(LED_BUILTIN, HIGH);
   delay(100);
   digitalWrite(LED_BUILTIN, LOW);
+  delay(100);
+  digitalWrite(LED_BUILTIN, HIGH);
 }
 
 void dataRead(const String &data)
@@ -199,7 +201,7 @@ void setup()
   // 初始化有LED的IO
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(recvLedPin, OUTPUT);
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(recvLedPin, LOW);
   // 初始化blinker
   Blinker.begin(auth);
