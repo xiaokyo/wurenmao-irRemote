@@ -5,6 +5,8 @@ const uint16_t kRecvPin = 5;
 const uint16_t recvLedPin = 15;
 
 char auth[] = "c67043f48092";
+char ssid[] = "9-1-10";
+char pswd[] = "qw123123";
 
 const uint32_t kBaudRate = 115200;
 const uint16_t kCaptureBufferSize = 1024;
@@ -79,23 +81,23 @@ void send_ir(String name = "open_kongtiao")
 
   if (name == "open_kongtiao")
   {
-    irsend.sendRaw(open_kongtiao, 371, 38); // Send a raw data capture at 38kHz.
+    irsend.sendRaw(open_kongtiao, sizeof(open_kongtiao) / sizeof(int), 38); // Send a raw data capture at 38kHz.
   }
   else if (name == "close_kongtiao")
   {
-    irsend.sendRaw(close_kongtiao, 371, 38); // Send a raw data capture at 38kHz.
+    irsend.sendRaw(close_kongtiao, sizeof(close_kongtiao) / sizeof(int), 38); // Send a raw data capture at 38kHz.
   }
   else if (name == "open_fengshan")
   {
-    irsend.sendRaw(open_fengshan, 76, 38); // Send a raw data capture at 38kHz.
+    irsend.sendRaw(open_fengshan, sizeof(open_fengshan) / sizeof(int), 38); // Send a raw data capture at 38kHz.
   }
   else if (name == "close_fengshan")
   {
-    irsend.sendRaw(close_fengshan, 76, 38); // Send a raw data capture at 38kHz.
+    irsend.sendRaw(close_fengshan, sizeof(close_fengshan) / sizeof(int), 38); // Send a raw data capture at 38kHz.
   }
   else if (name == "yaotou_fengshan")
   {
-    irsend.sendRaw(yaotou_fengshan, 76, 38); // Send a raw data capture at 38kHz.
+    irsend.sendRaw(yaotou_fengshan, sizeof(yaotou_fengshan) / sizeof(int), 38); // Send a raw data capture at 38kHz.
   }
 }
 
@@ -201,10 +203,10 @@ void setup()
   // 初始化有LED的IO
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(recvLedPin, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
-  digitalWrite(recvLedPin, LOW);
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(recvLedPin, HIGH);
   // 初始化blinker
-  Blinker.begin(auth);
+  Blinker.begin(auth, ssid, pswd);
   Blinker.attachData(dataRead);
   Button1.attach(button1_callback);
 

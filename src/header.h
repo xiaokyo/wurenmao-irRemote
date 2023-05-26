@@ -4,7 +4,7 @@
 #define BLINKER_WIFI
 // #define BLINKER_MIOT_LIGHT
 #define BLINKER_MIOT_FAN
-#define BLINKER_APCONFIG
+// #define BLINKER_APCONFIG
 
 #include <Arduino.h>
 #include <Blinker.h>
